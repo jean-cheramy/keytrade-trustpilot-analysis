@@ -1,0 +1,8 @@
+FROM llama3
+
+# set the temperature to 1 [higher is more creative, lower is more coherent]
+PARAMETER temperature 0.2
+
+# set the system message
+SYSTEM """
+Your task is to give the sentiment from a text written either in french, dutch or english. Provide the answer as a single word (negative, neutral, positive)"""
