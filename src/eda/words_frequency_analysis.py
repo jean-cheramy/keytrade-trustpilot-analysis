@@ -1,10 +1,11 @@
-import pandas as pd
 import re
 from collections import Counter
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-import nltk
+
 import matplotlib.pyplot as plt
+import nltk
+import pandas as pd
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud
 
 nltk.download('punkt')
@@ -140,7 +141,6 @@ def main(csv_file: str, output_file: str) -> None:
         generate_barplot(language, word_frequencies)
 
 
-# Run the main function
-csv_file = 'data/reviews.csv'  # Replace with your actual file path
+csv_file = 'data/reviews.csv'
 output_file = 'word_frequencies_per_language.csv'
 main(csv_file, output_file)

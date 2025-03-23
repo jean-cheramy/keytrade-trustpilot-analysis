@@ -97,14 +97,8 @@ def create_balanced_test_set(csv_path: str, rating_column: str, test_size: float
 
 
 if __name__ == "__main__":
-    # Convert JSON data to CSV
-    json_to_csv("../data/reviews.json", "data/reviews.csv")
-
-    # Create balanced train and test sets
-    train_set, test_set = create_balanced_test_set("data/reviews.csv", "rating")
-
-    # Save the train and test sets to CSV files
-    train_set.to_csv("data/balanced_train_set.csv", index=False, sep="\t")
-    test_set.to_csv("data/balanced_test_set.csv", index=False, sep="\t")
-
-    print("Balanced train and test sets have been created and saved.")
+    json_to_csv("../data/reviews.json", "../data/not_cleaned_reviews.csv")
+    # train_set, test_set = create_balanced_test_set("data/not_cleaned_reviews.csv", "rating")
+    # train_set.to_csv("data/balanced_train_set.csv", index=False, sep="\t")
+    # test_set.to_csv("data/balanced_test_set.csv", index=False, sep="\t")
+    # print("Balanced train and test sets have been created and saved.")

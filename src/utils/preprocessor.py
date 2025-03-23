@@ -84,7 +84,7 @@ class TextPreprocessor:
 
 
 if __name__ == "__main__":
-    text = "j'ai bien mangé de la purée et des bananes garçons"
+    text = "j'ai bien mangé \tde la purée et des\n bananes garçons # !"
 
     preprocessor = TextPreprocessor(use_stemming=False, language="french")
     cleaned_text = preprocessor.preprocess_text(text)
