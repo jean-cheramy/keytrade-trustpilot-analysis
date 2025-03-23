@@ -54,8 +54,8 @@ def evaluate_model(df: pd.DataFrame) -> None:
     print(f"Accuracy: {accuracy:.4f}")
     print(f"Balanced Accuracy: {balanced_accuracy:.4f}")
     print("Precision, Recall, and F1-Score per Class:")
-    for i, label in enumerate(LABELS):
-        print(f"{label}: Precision={precision[i]:.4f}, Recall={recall[i]:.4f}, F1-Score={f1[i]:.4f}")
+    # for i, label in enumerate(LABELS):
+    #     print(f"{label}: Precision={precision[i]:.4f}, Recall={recall[i]:.4f}, F1-Score={f1[i]:.4f}")
 
     print("\nClassification Report:")
     print(report)

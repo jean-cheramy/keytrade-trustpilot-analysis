@@ -58,8 +58,8 @@ def evaluate_model(true_labels: pd.Series, pred_labels: List[str]) -> None:
     print(f"Accuracy: {accuracy:.4f}")
     print(f"Balanced Accuracy: {balanced_accuracy:.4f}")
     print("Precision, Recall, and F1-Score per Class:")
-    for i, label in enumerate(LABELS):
-        print(f"{label}: Precision={precision[i]:.4f}, Recall={recall[i]:.4f}, F1-Score={f1[i]:.4f}")
+    # for i, label in enumerate(LABELS):
+    #     print(f"{label}: Precision={precision[i]:.4f}, Recall={recall[i]:.4f}, F1-Score={f1[i]:.4f}")
 
     print("\nClassification Report:")
     print(report)
@@ -77,13 +77,13 @@ def main(test_file: str) -> None:
     start_time = time.time()
 
     df = pd.read_csv(test_file, sep="\t")
-    pred_labels = [generate_response(record) for record in df["text"]]
-
-    with open("ollama_answers.json", "w+", encoding="utf-8") as f:
-        json.dump(pred_labels, f, ensure_ascii=False, indent=4)
-
-    elapsed_time = time.time() - start_time
-    print(f"Time spent: {elapsed_time} seconds")
+    # pred_labels = [generate_response(record) for record in df["text"]]
+    #
+    # with open("ollama_answers.json", "w+", encoding="utf-8") as f:
+    #     json.dump(pred_labels, f, ensure_ascii=False, indent=4)
+    #
+    # elapsed_time = time.time() - start_time
+    # print(f"Time spent: {elapsed_time} seconds")
     true_labels = df['true_sentiment']
 
     with open("ollama_answers.json", "r", encoding="utf-8") as f:
