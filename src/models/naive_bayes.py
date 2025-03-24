@@ -1,5 +1,5 @@
 import time
-from typing import Tuple
+from typing import Tuple, Set
 
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
@@ -7,6 +7,70 @@ from sklearn.metrics import accuracy_score, classification_report
 from sklearn.naive_bayes import MultinomialNB
 
 from src.utils.plot import plot_confusion_matrix
+import re
+import unicodedata
+
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import SnowballStemmer  # Updated to SnowballStemmer
+from nltk.tokenize import word_tokenize
+
+nltk.download("punkt")
+nltk.download("stopwords")
+
+# Merged stopwords from English, Dutch, and French
+stop_words: Set[str] = set(stopwords.words("english")) | set(stopwords.words("dutch")) | set(stopwords.words("french"))
+
+
+def clean_text(text: str) -> str:
+    """
+    Cleans the input text by removing punctuation, numbers, and normalizing accented characters.
+
+    Args:
+        text (str): The input text to be cleaned.
+
+    Returns:
+        str: The cleaned text.
+    """
+    text = text.lower()
+    text = re.sub(r"[^\w\s]", "", text)  # Remove punctuation
+    text = re.sub(r"\d+", "", text)  # Remove digits
+    return remove_accents(text)
+
+
+def remove_accents(input_str: str) -> str:
+    """
+    Removes accents from characters in a string.
+
+    Args:
+        input_str (str): The input string.
+
+    Returns:
+        str: The string without accented characters.
+    """
+    nfkd_form = unicodedata.normalize("NFKD", input_str)
+    return "".join([c for c in nfkd_form if not unicodedata.combining(c)])
+
+
+def preprocess_text(text: str) -> str:
+    """
+    Tokenizes the cleaned text, removes stopwords, and applies stemming.
+
+    Args:
+        text (str): The input text to be preprocessed.
+
+    Returns:
+        str: The fully processed text.
+    """
+    cleaned_text = clean_text(text)
+    tokens = word_tokenize(cleaned_text)
+    tokens = [word for word in tokens if word not in stop_words]  # Remove stopwords
+
+    # Apply Snowball stemming (for English, Dutch, French, etc.)
+    stemmer = SnowballStemmer("english")  # You can also use other languages like "french", "dutch", etc.
+    tokens = [stemmer.stem(word) for word in tokens]
+
+    return " ".join(tokens)
 
 
 def load_data(train_file: str, test_file: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -86,9 +150,9 @@ def main(train_file: str, test_file: str) -> None:
 
     train_data, test_data = load_data(train_file, test_file)
 
-    X_train = train_data["text"]
+    X_train = train_data["text"].apply(preprocess_text)
     y_train = train_data["true_sentiment"]
-    X_test = test_data["text"]
+    X_test = test_data["text"].apply(preprocess_text)
     y_test = test_data["true_sentiment"]
 
     X_train_vectorized, X_test_vectorized = vectorize_text(X_train, X_test)
