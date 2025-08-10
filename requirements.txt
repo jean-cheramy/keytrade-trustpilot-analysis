@@ -12,3 +12,4 @@ tqdm~=4.67.1
 bs4~=0.0.2
 beautifulsoup4~=4.12.3
 streamlit~=1.40.2
+sentencepiece~=0.2.0
