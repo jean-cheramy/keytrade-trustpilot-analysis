@@ -12,7 +12,21 @@ from cm_plot import plot_confusion_matrix
 
 MODEL_NAME = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, use_fast=False)
-model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
+
+def is_cuda_available() -> bool:
+    """Check if CUDA is available on the machine."""
+    return torch.cuda.is_available()
+
+def get_device() -> torch.device:
+    """
+    Return the CUDA device if available, otherwise CPU.
+    """
+    return torch.device("cuda" if is_cuda_available() else "cpu")
+
+device = get_device()
+model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME).to(device)
+model.eval()  
+
 
 LABELS = ['Negative', 'Neutral', 'Positive']
 
@@ -28,6 +42,9 @@ def predict_sentiment(text: str) -> str:
         return "Unknown"
 
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=512)
+    # Move inputs to the correct device
+    inputs = {k: v.to(device) for k, v in inputs.items()}
+
     with torch.no_grad():
         outputs = model(**inputs)
     probs = F.softmax(outputs.logits, dim=-1)

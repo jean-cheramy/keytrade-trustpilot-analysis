@@ -6,3 +6,9 @@
 .idea/modules.xml
 .idea/vcs.xml
 .idea/inspectionProfiles/profiles_settings.xml
+src/__pycache__/cm_plot.cpython-312.pyc
+src/__pycache__/data_loader.cpython-312.pyc
+src/__pycache__/scrapper.cpython-312.pyc
+src/models/__pycache__/BERT.cpython-312.pyc
+src/models/__pycache__/naive_bayes.cpython-312.pyc
+src/models/__pycache__/ollama.cpython-312.pyc

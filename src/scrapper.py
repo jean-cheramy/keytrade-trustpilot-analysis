@@ -40,7 +40,7 @@ def extract_reviews(page_num: int) -> Optional[List[Dict]]:
     return []
 
 
-def save_reviews_to_json(reviews: List[Dict], filename: str = 'reviews.json') -> None:
+def save_reviews_to_json(reviews: List[Dict], filename: str = 'data/reviews.json') -> None:
     """
     Save the extracted reviews to a JSON file.
 
