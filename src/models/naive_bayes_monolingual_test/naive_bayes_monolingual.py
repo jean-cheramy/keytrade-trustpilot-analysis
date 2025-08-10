@@ -7,8 +7,8 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.naive_bayes import MultinomialNB
 
-from src.utils.plot import plot_confusion_matrix
-from src.utils.preprocessor import TextPreprocessor
+from cm_plot import plot_confusion_matrix
+from models.naive_monolingual_approach.preprocessor import TextPreprocessor
 
 
 def load_data(train_file: str, test_file: str) -> (pd.DataFrame, pd.DataFrame):
@@ -111,4 +111,4 @@ def main(train_file: str, test_file: str) -> None:
 
 
 if __name__ == "__main__":
-    main("../data/balanced_train_set.csv", "../data/balanced_test_set.csv")
+    main("../../data/balanced_train_set.csv", "../../data/balanced_test_set.csv")

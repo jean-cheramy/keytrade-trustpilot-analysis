@@ -134,5 +134,5 @@ if __name__ == "__main__":
     # Example usage
     df = pd.read_csv("../data/dataset.csv", sep="\t")
     languages_dict = {"fr": "french", "en": "english", "nl": "dutch"}
-    ngram_range = (1, 3)  # You can change this to (1, 1) for unigrams, (1, 2) for unigrams and bigrams, etc.
+    ngram_range = (1, 3)
     analyze_language_group(df, languages_dict, ngram_range)

@@ -3,6 +3,23 @@ import pandas as pd
 import requests
 import streamlit as st
 
+"""
+app.py
+
+This Streamlit application allows users to interactively explore a sentiment-labeled review dataset and 
+generate context-aware responses using a locally hosted language model API (LLaMA3). 
+
+Core Features:
+- Loads a CSV file containing customer reviews along with their true sentiments and detected languages.
+- Displays a configurable number of sample reviews for user exploration.
+- Enables users to select a specific review and input a custom prompt/question.
+- Sends the selected review, sentiment, language, and prompt to a text generation API to receive an AI-generated answer.
+- Provides sliders for controlling the number of displayed reviews and the creativity level (temperature) of the model.
+
+This tool can be used for tasks such as analyzing model behavior, testing sentiment-based prompt engineering, 
+or generating tailored insights based on textual customer feedback.
+"""
+
 LABELS = ['Negative', 'Neutral', 'Positive']
 
 
@@ -46,13 +63,13 @@ def load_data() -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataset containing shuffled reviews and sentiments.
     """
-    df = pd.read_csv("src/data/balanced_test_set.csv", sep="\t")
+    df = pd.read_csv("data/balanced_test_set.csv", sep="\t")
     return df.sample(frac=1, random_state=None).reset_index(drop=True)  # Shuffle dataset
 
 
 df = load_data()
 
-st.image("KEYTRADE_logo-scaled.jpg", width=250)
+st.image("assets/KEYTRADE_logo-scaled.jpg", width=250)
 st.title("Sentiment Analysis Review Generator")
 
 limit = st.slider("Limit reviews displayed:", 1, 20, 10)

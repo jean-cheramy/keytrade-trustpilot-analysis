@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.naive_bayes import MultinomialNB
 
-from src.utils.plot import plot_confusion_matrix
+from cm_plot import plot_confusion_matrix
 import re
 import unicodedata
 
@@ -164,4 +164,4 @@ def main(train_file: str, test_file: str) -> None:
 
 
 if __name__ == "__main__":
-    main("../data/balanced_train_set.csv", "../data/balanced_test_set.csv")
+    main("../../data/balanced_train_set.csv", "../../data/balanced_test_set.csv")

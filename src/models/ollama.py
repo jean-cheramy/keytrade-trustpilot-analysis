@@ -1,3 +1,4 @@
+import os
 import json
 import time
 from typing import List
@@ -7,7 +8,7 @@ import requests
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support, classification_report, \
     balanced_accuracy_score
 
-from src.utils.plot import plot_confusion_matrix
+from cm_plot import plot_confusion_matrix
 
 LABELS = ['Negative', 'Neutral', 'Positive']
 
@@ -50,47 +51,48 @@ def evaluate_model(true_labels: pd.Series, pred_labels: List[str]) -> None:
     """
     accuracy = accuracy_score(true_labels, pred_labels)
     balanced_accuracy = balanced_accuracy_score(true_labels, pred_labels)
-
-    precision, recall, f1, _ = precision_recall_fscore_support(true_labels, pred_labels, labels=LABELS, average=None)
-
     report = classification_report(true_labels, pred_labels, target_names=LABELS)
 
     print(f"Accuracy: {accuracy:.4f}")
     print(f"Balanced Accuracy: {balanced_accuracy:.4f}")
     print("Precision, Recall, and F1-Score per Class:")
-    # for i, label in enumerate(LABELS):
-    #     print(f"{label}: Precision={precision[i]:.4f}, Recall={recall[i]:.4f}, F1-Score={f1[i]:.4f}")
-
     print("\nClassification Report:")
     print(report)
 
-    plot_confusion_matrix(true_labels, pred_labels, "../plots/distillbert_cm.png", "DistillBert Confusion Matrix")
+    plot_confusion_matrix(true_labels, pred_labels, "results_plots/llama3_cm.png", "Llama3 Confusion Matrix")
 
 
 def main(test_file: str) -> None:
     """
-    Main function to load test data, predict sentiment using the model, and evaluate performance.
+    Main function to load test data, generate or load sentiment predictions,
+    and evaluate model performance.
 
     Args:
-    test_file (str): Path to the test dataset.
+        test_file (str): Path to the test dataset (.tsv file).
     """
     start_time = time.time()
 
     df = pd.read_csv(test_file, sep="\t")
-    # pred_labels = [generate_response(record) for record in df["text"]]
-    #
-    # with open("ollama_answers.json", "w+", encoding="utf-8") as f:
-    #     json.dump(pred_labels, f, ensure_ascii=False, indent=4)
-    #
-    # elapsed_time = time.time() - start_time
-    # print(f"Time spent: {elapsed_time} seconds")
     true_labels = df['true_sentiment']
 
-    with open("ollama_answers.json", "r", encoding="utf-8") as f:
-        pred_labels = json.load(f)
+    pred_file = "ollama_answers.json"
+
+    if os.path.exists(pred_file):
+        with open(pred_file, "r", encoding="utf-8") as f:
+            pred_labels = json.load(f)
+        print("Loaded predictions from cache.")
+    else:
+        pred_labels = [generate_response(record) for record in df["text"]]
+
+        with open(pred_file, "w", encoding="utf-8") as f:
+            json.dump(pred_labels, f, ensure_ascii=False, indent=4)
+
+        elapsed_time = time.time() - start_time
+        print(f"Predictions generated and saved. Time spent: {elapsed_time:.2f} seconds")
+
     evaluate_model(true_labels, pred_labels)
 
 
 # Run the main function
 if __name__ == "__main__":
-    main("../data/balanced_test_set.csv")
+    main("../../data/balanced_test_set.csv")
