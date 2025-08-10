@@ -1,5 +1,7 @@
 # 🧠 Sentiment Analysis of Trustpilot Reviews of Keytrade Bank
 
+I created this project to showcase my end-to-end data skills and because I was personally curious about Keytrade Bank—a new player in Belgium’s banking scene—as I considered switching my own accounts. Analyzing real Trustpilot reviews helped me explore multilingual sentiment analysis and compare NLP models, combining practical data science with my personal interest.
+
 This project explores the sentiment expressed in over 1,000 multilingual reviews from Trustpilot for Keytrade Bank. It combines web scraping, exploratory data analysis, classical and modern NLP models, and generative AI to compare different approaches to sentiment classification and automated response generation.
 A pdf [presentation](Sentiment-Analysis-of-Trustpilot-Reviews-for-Keytrade-Bank.pdf) summarizes the methodology, analysis and insights.
 
@@ -40,10 +42,10 @@ A pdf [presentation](Sentiment-Analysis-of-Trustpilot-Reviews-for-Keytrade-Bank.
 ```bash
 keytrade-trustpilot-analysis/
 │
-├── data/                # Raw and processed review datasets
+├── data/          # Raw and processed review datasets
 ├── eda/           # EDA notebooks and scripts
-├── src/                 # Core scraping, preprocessing, modeling scripts
-├── app.py       # Demo UI for sentiment analysis
+├── src/           # Core scraping, preprocessing, modeling scripts
+├── app.py         # Demo UI for sentiment analysis
 ├── README.md
 └── requirements.txt
 ```
@@ -114,7 +116,7 @@ To customize the behavior of the LLaMA3 model in Ollama, you can set parameters 
 
 | Model       | Accuracy | Time     | Notes                               |
 |-------------|----------|----------|-------------------------------------|
-| <span style="background-color:#28a745; color:white; padding:4px 8px; border-radius:4px;">Naive Bayes</span> | 0.86     | 0.6 sec  | Fast, interpretable baseline        |
+| ![Naive Bayes](https://img.shields.io/badge/Naive%20Bayes-%23006400?logoColor=white) | 0.86     | 0.6 sec  | Fast, interpretable baseline        |
 | BERT        | 0.82     | 23 sec   | Strong multilingual performance     |
 | LLaMA 3     | 0.88     | 48 min   | Best accuracy, slow, inconsistent   |
 
