@@ -16,8 +16,4 @@ def main():
     ollama.main("data/balanced_test_set.csv")
 
 if __name__ == "__main__":
-  import torch
-  print(torch.version.cuda)          # Should show 12.0
-  print(torch.cuda.is_available())   # Should be True
-  print(torch.cuda.get_arch_list())  # Should include 12.0
-
+  main()

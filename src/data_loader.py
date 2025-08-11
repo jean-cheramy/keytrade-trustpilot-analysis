@@ -56,9 +56,17 @@ def json_to_csv(json_path: str, csv_path: str) -> None:
     print(f"Data has been successfully written to {csv_path}")
 
 
+import pandas as pd
+from typing import Tuple, List
+from sklearn.model_selection import train_test_split
+
 def create_balanced_test_set(csv_path: str, rating_column: str, test_size: float = 0.2) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Creates a balanced train and test set by selecting a fixed percentage of each rating class.
+    Adds a 'true_sentiment' column matching model labels:
+        - Ratings 1–2 → 'Negative'
+        - Rating 3 → 'Neutral'
+        - Ratings 4–5 → 'Positive'
     Ensures that no NaN values are present in the dataset.
 
     Args:
@@ -74,18 +82,27 @@ def create_balanced_test_set(csv_path: str, rating_column: str, test_size: float
     if rating_column not in df.columns:
         raise ValueError(f"Column '{rating_column}' not found in dataset.")
 
+    sentiment_map = {
+        1: "Negative",
+        2: "Negative",
+        3: "Neutral",
+        4: "Positive",
+        5: "Positive"
+    }
+    df["true_sentiment"] = df[rating_column].map(sentiment_map)
+
     test_sets: List[pd.DataFrame] = []
     train_sets: List[pd.DataFrame] = []
 
     for rating in df[rating_column].unique():
         class_subset = df[df[rating_column] == rating]
 
-        if len(class_subset) >= 5:  # Ensure sufficient members per class for splitting
+        if len(class_subset) >= 5:
             train_subset, test_subset = train_test_split(
                 class_subset,
                 test_size=test_size,
                 random_state=42,
-                stratify=class_subset[[rating_column]],  # Correct stratification by rating column
+                stratify=class_subset[[rating_column]],
             )
             train_sets.append(train_subset)
             test_sets.append(test_subset)
@@ -94,6 +111,7 @@ def create_balanced_test_set(csv_path: str, rating_column: str, test_size: float
     test_set = pd.concat(test_sets).reset_index(drop=True)
 
     return train_set, test_set
+
 
 
 if __name__ == "__main__":

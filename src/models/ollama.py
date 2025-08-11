@@ -59,7 +59,7 @@ def evaluate_model(true_labels: pd.Series, pred_labels: List[str]) -> None:
     print("\nClassification Report:")
     print(report)
 
-    plot_confusion_matrix(true_labels, pred_labels, "results_plots/llama3_cm.png", "Llama3 Confusion Matrix")
+    plot_confusion_matrix(true_labels, pred_labels, "src/models/results_plots/llama3_cm.png", "Llama3 Confusion Matrix")
 
 
 def main(test_file: str) -> None:
@@ -75,13 +75,14 @@ def main(test_file: str) -> None:
     df = pd.read_csv(test_file, sep="\t")
     true_labels = df['true_sentiment']
 
-    pred_file = "ollama_answers.json"
+    pred_file = "src/models/ollama_answers.json"
 
     if os.path.exists(pred_file):
         with open(pred_file, "r", encoding="utf-8") as f:
             pred_labels = json.load(f)
         print("Loaded predictions from cache.")
     else:
+        print("Predicting sentiment using Llama3")
         pred_labels = [generate_response(record) for record in df["text"]]
 
         with open(pred_file, "w", encoding="utf-8") as f:
@@ -91,8 +92,3 @@ def main(test_file: str) -> None:
         print(f"Predictions generated and saved. Time spent: {elapsed_time:.2f} seconds")
 
     evaluate_model(true_labels, pred_labels)
-
-
-# Run the main function
-if __name__ == "__main__":
-    main("../../data/balanced_test_set.csv")

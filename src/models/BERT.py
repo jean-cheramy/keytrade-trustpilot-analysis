@@ -91,10 +91,6 @@ def main(test_file: str) -> None:
     evaluate_model(df)
     plot_confusion_matrix(
         df['true_sentiment'], df['sentiment'],
-        "results_plots/bert_cm.png",
+        "src/models/results_plots/bert_cm.png",
         "Bert Confusion Matrix"
     )
-
-
-if __name__ == "__main__":
-    main("../../data/balanced_test_set.csv")

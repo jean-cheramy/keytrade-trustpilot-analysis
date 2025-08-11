@@ -135,7 +135,7 @@ def evaluate_model(y_test: pd.Series, y_pred: pd.Series) -> None:
     """
     print("Accuracy:", accuracy_score(y_test, y_pred))
     print("Classification Report:\n", classification_report(y_test, y_pred))
-    plot_confusion_matrix(y_test, y_pred, "../plots/multinomialNB_cm.png", "MultinomialNB Confusion Matrix")
+    plot_confusion_matrix(y_test, y_pred, "src/models/results_plots/multinomialNB_cm.png", "MultinomialNB Confusion Matrix")
 
 
 def main(train_file: str, test_file: str) -> None:
@@ -161,7 +161,3 @@ def main(train_file: str, test_file: str) -> None:
     elapsed_time = time.time() - start_time
     print(f"Time spent: {elapsed_time} seconds")
     evaluate_model(y_test, y_pred)
-
-
-if __name__ == "__main__":
-    main("../../data/balanced_train_set.csv", "../../data/balanced_test_set.csv")
