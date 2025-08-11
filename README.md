@@ -1,6 +1,6 @@
 # 🧠 Sentiment Analysis of Trustpilot Reviews of Keytrade Bank
 
-I created this project to showcase my end-to-end data skills and because I was personally curious about Keytrade Bank—a new player in Belgium’s banking scene—as I considered switching my own accounts. Analyzing real Trustpilot reviews helped me explore multilingual sentiment analysis and compare NLP models, combining practical data science with my personal interest.
+I created this project to showcase my end-to-end data skills and because I was personally curious about Keytrade Bank, a new player in Belgium’s banking scene, as I considered switching my own accounts. Analyzing real Trustpilot reviews helped me explore multilingual sentiment analysis and compare NLP models, combining practical data science with my personal interest.
 
 This project explores the sentiment expressed in over 1,000 multilingual reviews from Trustpilot for Keytrade Bank. It combines web scraping, exploratory data analysis, classical and modern NLP models, and generative AI to compare different approaches to sentiment classification and automated response generation.
 A pdf [presentation](Sentiment-Analysis-of-Trustpilot-Reviews-for-Keytrade-Bank.pdf) summarizes the methodology, analysis and insights.
@@ -16,14 +16,14 @@ A pdf [presentation](Sentiment-Analysis-of-Trustpilot-Reviews-for-Keytrade-Bank.
 
 ## 📈 Features
 
-- 🌐 **Web Scraping** using `BeautifulSoup` to extract structured review data  
-- 📊 **Multilingual EDA** across French, Dutch, and English  
-- 🧹 **Advanced preprocessing** including multilingual stemming and vectorization  
-- 🧪 **Model comparison**:  
+- **Web Scraping** using `BeautifulSoup` to extract structured review data  
+- **Multilingual EDA** across French, Dutch, and English  
+- **Advanced preprocessing** including multilingual stemming and vectorization  
+- **Model comparison**:  
   - **Naive Bayes** for lightweight baseline  
   - **BERT (XLM-Roberta)** for contextual multilingual understanding  
   - **LLaMA 3** for advanced generation and classification  
-- 🤖 **LLM-based response generation** pipeline (demo prototype)  
+- **LLM-based response generation** pipeline (demo prototype)  
 
 
 ## 🛠️ Tech Stack
@@ -120,7 +120,9 @@ To customize the behavior of the LLaMA3 model in Ollama, you can set parameters 
 | BERT        | 0.82     | 23 sec   | Strong multilingual performance     |
 | LLaMA 3     | 0.88     | 48 min   | Best accuracy, slow, inconsistent   |
 
+⚠️ Note on LLaMA 3 via Ollama
 
+While LLaMA 3 achieved the highest accuracy in our tests, its classification output was not always consistent when prompted for discrete labels like Positive, Negative, or Neutral. At times, it returned variations such as “It is positive” or even unrelated tokens like “true” which required manual post-processing to clean the predictions before computing metrics. This inconsistency makes it less reliable for automated batch scoring compared to simpler models like Naive Bayes, which produce deterministic and clean outputs without extra handling.
 
 ## 🤖 Automated Response Generation
 
