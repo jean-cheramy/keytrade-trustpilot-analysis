@@ -3,7 +3,7 @@ import time
 import pandas as pd
 import torch
 import torch.nn.functional as F
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support, classification_report, \
+from sklearn.metrics import accuracy_score, classification_report, \
     balanced_accuracy_score
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModelForSequenceClassification

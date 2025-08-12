@@ -56,10 +56,6 @@ def json_to_csv(json_path: str, csv_path: str) -> None:
     print(f"Data has been successfully written to {csv_path}")
 
 
-import pandas as pd
-from typing import Tuple, List
-from sklearn.model_selection import train_test_split
-
 def create_balanced_test_set(csv_path: str, rating_column: str, test_size: float = 0.2) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Creates a balanced train and test set by selecting a fixed percentage of each rating class.

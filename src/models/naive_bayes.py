@@ -12,7 +12,7 @@ import unicodedata
 
 import nltk
 from nltk.corpus import stopwords
-from nltk.stem import SnowballStemmer  # Updated to SnowballStemmer
+from nltk.stem import SnowballStemmer  
 from nltk.tokenize import word_tokenize
 
 nltk.download("punkt")

@@ -5,8 +5,8 @@ from typing import List
 
 import pandas as pd
 import requests
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support, classification_report, \
-    balanced_accuracy_score
+from tqdm import tqdm
+from sklearn.metrics import accuracy_score, classification_report, balanced_accuracy_score
 
 from cm_plot import plot_confusion_matrix
 
@@ -18,11 +18,11 @@ def generate_response(prompt: str, model: str = "sentiment_analyser") -> str:
     Generates a sentiment analysis response for the given prompt by making a request to the sentiment analysis API.
 
     Args:
-    prompt (str): The text input for which the sentiment analysis is to be performed.
-    model (str): The model name to be used for sentiment analysis (default is "sentiment_analyser").
+        prompt: The text input for which the sentiment analysis is to be performed.
+        model: The model name to be used for sentiment analysis (default is "sentiment_analyser").
 
     Returns:
-    str: The predicted sentiment or an error message if the API request fails.
+        The predicted sentiment or an error message if the API request fails.
     """
     url = "http://localhost:11434/api/generate"
     headers = {"Content-Type": "application/json"}
@@ -34,8 +34,7 @@ def generate_response(prompt: str, model: str = "sentiment_analyser") -> str:
 
     response = requests.post(url, headers=headers, data=json.dumps(payload))
     if response.status_code == 200:
-        response_text = response.text
-        data = json.loads(response_text)
+        data = json.loads(response.text)
         return data["response"].capitalize()
     else:
         return "Error while generating the answer"
@@ -43,11 +42,12 @@ def generate_response(prompt: str, model: str = "sentiment_analyser") -> str:
 
 def evaluate_model(true_labels: pd.Series, pred_labels: List[str]) -> None:
     """
-    Evaluates the performance of the model by calculating accuracy, balanced accuracy, and generating a classification report.
+    Evaluates the performance of the model by calculating accuracy, balanced accuracy,
+    and generating a classification report.
 
     Args:
-    true_labels (pd.Series): The true sentiment labels of the test set.
-    pred_labels (List[str]): The predicted sentiment labels.
+        true_labels: The true sentiment labels of the test set.
+        pred_labels: The predicted sentiment labels.
     """
     accuracy = accuracy_score(true_labels, pred_labels)
     balanced_accuracy = balanced_accuracy_score(true_labels, pred_labels)
@@ -68,7 +68,7 @@ def main(test_file: str) -> None:
     and evaluate model performance.
 
     Args:
-        test_file (str): Path to the test dataset (.tsv file).
+        test_file: Path to the test dataset (.tsv file).
     """
     start_time = time.time()
 
@@ -82,8 +82,8 @@ def main(test_file: str) -> None:
             pred_labels = json.load(f)
         print("Loaded predictions from cache.")
     else:
-        print("Predicting sentiment using Llama3")
-        pred_labels = [generate_response(record) for record in df["text"]]
+        print("Predicting sentiment using Llama3...")
+        pred_labels = [generate_response(record) for record in tqdm(df["text"], desc="Processing")]
 
         with open(pred_file, "w", encoding="utf-8") as f:
             json.dump(pred_labels, f, ensure_ascii=False, indent=4)
